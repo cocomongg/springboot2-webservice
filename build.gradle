@@ -1,0 +1,47 @@
+// buildscript: project의 플러그인 의존성(라이브러리)관리를 위한 설정
+// ext: build.gradle에서 사용하는 전역 변수 설정
+// repositories: 각종 의존성(라이브러리)들을 어떤 원격 저장소에서 받을 지 정한다.
+buildscript {
+    ext {
+        springBootVersion='2.1.7.RELEASE'
+    }
+    repositories {
+        mavenCentral()
+        jcenter()
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+    }
+}
+
+// 이 4개의 플러그인들은 자바와 스프링부트를 사용하기 위한 필수 플러그인이다.
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'org.springframework.boot'
+apply plugin: 'io.spring.dependency-management'
+
+
+
+group 'org.example.book'
+version '1.0-SNAPSHOT'
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+}
+
+
+// dependencies: 프로젝트 개발에 필요한 의존성들을 선언하는 곳
+// 버전이 명시되어 있지 않아야 buildscript에서 작성한
+// org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}의 버전을 따라간다.
+dependencies {
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.6.0'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
+
+    compile('org.springframework.boot:spring-boot-starter-web')
+    testCompile('org.springframework.boot:spring-boot-starter-test')
+}
+
+test {
+    useJUnitPlatform()
+}
